@@ -1,0 +1,183 @@
+/* 背景層 */
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #528261; /* 最底層背景顏色 */
+    z-index: -1; /* 放在最底層 */
+}
+
+/* 修改選單樣式為 1/4 圓，確保按鈕不超過背景 */
+.menu {
+    position: fixed; /* 固定選單位置 */
+    top: 0; /* 貼齊畫面頂部 */
+    right: 0; /* 貼齊畫面右側 */
+    display: flex;
+    flex-direction: column; /* 垂直排列選單項目 */
+    gap: 10px; /* 選單項目之間的間距 */
+    list-style: none;
+    margin: 0;
+    padding: 30px; /* 增加內部間距，確保按鈕不超出背景 */
+    background-color: #599682; /* 選單背景顏色 */
+    border-radius: 0 0 0 100px; /* 右上角為 1/4 圓 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000; /* 確保選單位於最上層 */
+    transform: translateY(-100%); /* 初始狀態向上移出視窗 */
+    transition: transform 0.3s ease, opacity 0.3s ease; /* 平滑過渡效果 */
+    opacity: 0; /* 初始隱藏選單 */
+}
+
+.menu.visible {
+    transform: translateY(0); /* 滑入視窗 */
+    opacity: 1; /* 顯示選單 */
+    pointer-events: auto; /* 啟用互動 */
+}
+
+/* 修改選單項目樣式 */
+.menu li {
+    font-size: 20px; /* 調整按鈕文字大小 */
+    color: #a8dac9; /* 選單文字顏色 */
+    padding: 15px 20px; /* 調整按鈕內部間距 */
+    border-radius: 5px; /* 按鈕圓角 */
+    transition: background-color 0.3s, color 0.3s;
+    position: relative;
+    text-align: center; /* 文字置中 */
+}
+
+.menu li:hover {
+    background-color: #61A397; /* 按鈕懸停背景顏色 */
+    color: #00271a; /* 按鈕懸停文字顏色 */
+}
+
+.menu a {
+    text-decoration: none; /* 移除連結底線 */
+    color: inherit; /* 繼承父元素的文字顏色 */
+}
+
+.submenu {
+    display: none;
+    position: absolute;
+    top: 0; /* 與父選單項目對齊 */
+    left: -100%; /* 移動到父選單的左邊 */
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    background-color: #599682;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.submenu li {
+    padding: 10px 20px;
+    font-size: 20px;
+    white-space: nowrap;
+    color: #a8dac9; /* 子選單文字顏色 */
+}
+
+.submenu li:hover {
+    background-color: #61A397;
+    color: #00271a;
+}
+
+.menu li:hover .submenu {
+    display: block;
+}
+
+/* iframe 初始樣式 */
+.iframe {
+    position: absolute;
+    top: 100px; /* 距離頂部的距離 */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 70%;
+    background-color: transparent; /* 背景透明 */
+    border: 2px solid #4A7C59; /* 邊框顏色 */
+    z-index: 1; /* 放在背景層之上 */
+    box-shadow: 0 0 20px 10px rgba(74, 124, 89, 0.5), /* 外層燈光 */
+                0 0 40px 20px rgba(74, 124, 89, 0.3); /* 更柔和的外層光暈 */
+    opacity: 0; /* 初始不可見 */
+    pointer-events: none; /* 禁止互動 */
+    transition: opacity 0.3s ease, background-color 0.3s ease; /* 平滑過渡效果 */
+}
+
+/* iframe 顯示樣式 */
+.iframe.visible {
+    opacity: 1; /* 顯示 iframe */
+    background-color: #4A7C59; /* 顯示背景顏色 */
+    pointer-events: auto; /* 啟用互動 */
+}
+
+/* 火焰特效 */
+.fire-effect {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(255, 69, 0, 1) 0%, rgba(255, 140, 0, 0.8) 50%, rgba(255, 69, 0, 0) 100%);
+    border-radius: 50%;
+    animation: fire-animation 1.5s ease-out forwards;
+    z-index: 1000;
+    pointer-events: none; /* 禁止互動 */
+}
+
+@keyframes fire-animation {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(3);
+        opacity: 0;
+    }
+}
+
+/* 煙火容器 */
+.fireworks-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* 禁止互動 */
+    z-index: -1; /* 放在最底層 */
+    overflow: hidden;
+}
+
+/* 煙火粒子 */
+.firework {
+    position: absolute;
+    width: 8px; /* 增加粒子大小 */
+    height: 8px;
+    background-color: rgba(255, 255, 255, 1);
+    border-radius: 50%;
+    animation: firework-animation 1.5s ease-out forwards;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8); /* 增加粒子光暈 */
+}
+
+/* 煙火動畫 */
+@keyframes firework-animation {
+    0% {
+        transform: scale(1) translate(0, 0);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(0.5) translate(var(--x), var(--y));
+        opacity: 0;
+    }
+}
+
+/* 彩色煙火粒子 */
+.firework:nth-child(odd) {
+    background-color: rgba(255, 69, 0, 1); /* 紅色 */
+    box-shadow: 0 0 10px rgba(255, 69, 0, 0.8);
+}
+
+.firework:nth-child(even) {
+    background-color: rgba(0, 149, 199, 1); /* 藍色 */
+    box-shadow: 0 0 10px rgba(0, 149, 199, 0.8);
+}
